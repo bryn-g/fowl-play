@@ -34,7 +34,9 @@ write_delim(
   escape = c("none")
 )
 
-# get bot scores
+# get bot score
+# python get_blt_botscores.py -wr -f "xxxxxxxxxx_user_ids.txt"
+# or full bot scores
 # python get_bv4_botscores.py -wr -f "xxxxxxxxxx_user_ids.txt"
 
 # read bot scores from csv
