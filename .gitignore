@@ -204,3 +204,6 @@ vignettes/*.pdf
 .Renviron
 .env
 fowl-play.code-workspace
+*.txt
+*.json
+*.csv
