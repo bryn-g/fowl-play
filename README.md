@@ -37,17 +37,6 @@ Line delimited text file of Twitter `user_id`'s (one per line).
 Saves returned JSON to `json` files and bot scores to a `csv` file with datetime format names.
 
 1. JSON files for each Botometer API response: `2022-08-24_134014_blt_chunk_1.json`, `2022-08-24_134020_blt_chunk_2.json` ...
-```
-[
-    {
-        "botscore": 0.08,
-        "tweet_id": null,
-        "user_id": 116889724
-    },
-    ...
-]
-```
-
 2. Bot scores for all Twitter users: `2022-08-24_134024_blt_botscores.csv`
 ```
 ,botscore,user_id
