@@ -20,7 +20,8 @@ from utils import *
 @click.option(
     "--file", "-f",
     type=click.Path(exists=True),
-    help="input file of tweet ids, ensure one id per line"
+    help="input file of tweet ids, ensure one id per line",
+    required=True
 )
 def main(file):
     """ get tweet json for a file of tweet ids using twarc hydration """

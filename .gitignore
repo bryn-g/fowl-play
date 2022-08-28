@@ -207,3 +207,4 @@ fowl-play.code-workspace
 *.txt
 *.json
 *.csv
+thread_botscores_ret.R

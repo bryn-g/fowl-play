@@ -28,7 +28,8 @@ from utils import *
 @click.option(
     "--file", "-f",
     type=click.Path(exists=True),
-    help="input file containing list of json dumped tweets"
+    help="input file containing list of json dumped tweets",
+    required=True
 )
 @click.option("--wait_reset", "-wr", is_flag=True, help="if api rate-limit reached wait for reset")
 def main(file, wait_reset):
