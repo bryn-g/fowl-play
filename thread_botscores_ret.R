@@ -24,7 +24,7 @@ tweet_id <- "https://twitter.com/xxxxxx/status/xxxxxxxxxxxxxxxxx"
 thread <- tcn_threads(tweet_id, token = token, endpoint = "recent")
 
 # get conversation users
-user_ids <- as.list(thread$users |> distinct(user_id))
+user_ids <- as.list(thread$users |> distinct(user_id) |> pull())
 
 # reticulate
 
@@ -39,9 +39,9 @@ py_install(
 )
 
 # use more direct get_blt_botscores function
-reticulate::source_python("get_blt_botscores_ret.py")
+source_python("get_blt_botscores_ret.py")
 ret_bot_scores <- get_blt_botscores(
-  user_ids = r_to_py(user_ids)$user_id,
+  user_ids = r_to_py(user_ids),
   wait_reset = r_to_py(TRUE)
 )
 
@@ -65,13 +65,17 @@ require(visNetwork)
 
 pal <- colorRampPalette(c('#f1dde0','#bb0e6d'))
 net_actor$nodes$color <- pal(8)[cut(net_actor$nodes$bot.botscore, breaks = 8)]
-net_actor$nodes$label <- as.character(net_actor$nodes$bot.botscore)
+net_actor$nodes$label <- paste0(
+  net_actor$nodes$profile.name,
+  " (", as.character(net_actor$nodes$bot.botscore), ")"
+)
 net_actor$nodes <- net_actor$nodes |>
   mutate(color = ifelse(is.na(color), "#f5f5f5", color))
 
 # actor graph
 g_actor <- graph_from_data_frame(
   net_actor$edges, vertices = net_actor$nodes
-) |> visIgraph(idToLabel = FALSE)
+) |>
+visIgraph(idToLabel = FALSE)
 
 g_actor
