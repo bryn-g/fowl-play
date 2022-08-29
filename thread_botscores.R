@@ -88,8 +88,8 @@ names(net_activity$nodes)
 # [43] "bot.user.majority_lang"
 
 # plots
-require(igraph)
-require(visNetwork)
+library(igraph)
+library(visNetwork)
 
 # activity graph
 g_activity <- graph_from_data_frame(

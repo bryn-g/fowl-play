@@ -208,3 +208,4 @@ fowl-play.code-workspace
 *.json
 *.csv
 *.RDS
+*.Rproj

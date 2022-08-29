@@ -52,30 +52,20 @@ bot_scores <- ret_bot_scores |>
   rename_all(.funs = ~ paste0("bot.", .x)) |>
   distinct(bot.user_id, .keep_all = TRUE)
 
-# create network
-net_actor <- thread |> tcn_network("actor")
+source("thread_plot_ret.R")
 
-# add bot scores
-net_actor$nodes <- net_actor$nodes |>
-  left_join(bot_scores, by = c("user_id" = "bot.user_id"))
+# networks
+add_bot_scores <- function(net, bot_scores) {
+  if ("user_id" %in% colnames(net$nodes)) {
+    net$nodes <- net$nodes |> 
+      left_join(bot_scores, by = c("user_id" = "bot.user_id"))
+  }
+  net
+}
 
-  # plots
-require(igraph)
-require(visNetwork)
+# create networks and add bot scores
+net_activity <- thread |> tcn_network("activity") |> add_bot_scores(bot_scores)
+net_actor <- thread |> tcn_network("actor") |> add_bot_scores(bot_scores)
 
-pal <- colorRampPalette(c('#f1dde0','#bb0e6d'))
-net_actor$nodes$color <- pal(8)[cut(net_actor$nodes$bot.botscore, breaks = 8)]
-net_actor$nodes$label <- paste0(
-  net_actor$nodes$profile.name,
-  " (", as.character(net_actor$nodes$bot.botscore), ")"
-)
-net_actor$nodes <- net_actor$nodes |>
-  mutate(color = ifelse(is.na(color), "#f5f5f5", color))
-
-# actor graph
-g_actor <- graph_from_data_frame(
-  net_actor$edges, vertices = net_actor$nodes
-) |>
-visIgraph(idToLabel = FALSE)
-
-g_actor
+# thread_net_bot_plot(net_activity)
+thread_net_bot_plot(net_actor)
